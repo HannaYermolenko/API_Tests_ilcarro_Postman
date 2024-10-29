@@ -1,0 +1,1502 @@
+{
+	"info": {
+		"_postman_id": "e633ac41-7e5c-49b6-b7fb-d98c082efd20",
+		"name": "46QA_Ilcarro",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37858778"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Login",
+					"item": [
+						{
+							"name": "Negative",
+							"item": [
+								{
+									"name": "LoginNonExistedUser",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Status code is Unauthorized\", function () {\r",
+													"    pm.response.to.have.status(\"Unauthorized\");\r",
+													"});\r",
+													"pm.test(\"Content-Type header is application/json\", function () {\r",
+													"    //pm.response.to.have.header(\"Content-Type\");\r",
+													"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Body matches Unauthorized\", function () {\r",
+													"    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Json value error\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.error).to.eql(\"Unauthorized\"); \r",
+													"\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Json value status\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.status).to.eql(401);\r",
+													" \r",
+													"\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Json value message\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.expect(jsonData.message).to.eql(\"Login or Password incorrect\");\r",
+													"\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Json value path\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"     pm.expect(jsonData.path).to.eql(\"/v1/user/login/usernamepassword\"); \r",
+													"\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Content-Type is present\", function () {\r",
+													"    pm.response.to.have.header(\"Content-Type\");\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.expect(pm.response.code).to.equal(401);\r",
+													"});\r",
+													"\r",
+													"\r",
+													"pm.test(\"Response schema includes timestamp, status, error, message, and path\", function () {\r",
+													"  const responseData = pm.response.json();\r",
+													"\r",
+													"  pm.expect(responseData).to.be.an('object');\r",
+													"  pm.expect(responseData.timestamp).to.exist.and.to.be.a('string');\r",
+													"  pm.expect(responseData.status).to.exist.and.to.be.a('number');\r",
+													"  pm.expect(responseData.error).to.exist.and.to.be.a('string');\r",
+													"  pm.expect(responseData.message).to.exist.and.to.be.a('string');\r",
+													"  pm.expect(responseData.path).to.exist.and.to.be.a('string');\r",
+													"});\r",
+													"\r",
+													"\r",
+													"pm.test(\"Timestamp is in a valid date format\", function () {\r",
+													"    const responseData = pm.response.json();\r",
+													"    pm.expect(responseData.timestamp).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}/);\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"username\": \"user12@gmail.com\",\r\n  \"password\": \"1234567Qa#\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/v1/user/login/usernamepassword",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"v1",
+												"user",
+												"login",
+												"usernamepassword"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											"pm.test(\"Status code is 401, 400, 403, 404\", function () {\r",
+											"    pm.expect(pm.response.code).to.be.oneOf([400, 401, 403, 404]);\r",
+											"});"
+										]
+									}
+								}
+							]
+						},
+						{
+							"name": "Positive",
+							"item": [
+								{
+									"name": "LoginExistedUser",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code name has message OK\", function () {\r",
+													"    pm.response.to.have.status(\"OK\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response has field accessToken\", function () {\r",
+													"    const responseData = pm.response.json();\r",
+													"    pm.expect(responseData).to.be.an('object');\r",
+													"    pm.expect(responseData.accessToken).to.exist;\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Content-Type is present\", function () {\r",
+													"    pm.response.to.have.header(\"Content-Type\");\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Content-Type header is application/json\", function () {\r",
+													"    //pm.response.to.have.header(\"Content-Type\");\r",
+													"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+													"});\r",
+													"\r",
+													"var jsonData = pm.response.json();\r",
+													"pm.environment.set(\"accessToken\", jsonData.accessToken);\r",
+													"console.log(\"Access Token: \", jsonData.accessToken);\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"username\": \"user12@gmail.com\",\r\n  \"password\": \"1234567Qa@\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/v1/user/login/usernamepassword",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"v1",
+												"user",
+												"login",
+												"usernamepassword"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json, text/plain, */*"
+											},
+											{
+												"key": "Accept-Language",
+												"value": "en-US,en-GB;q=0.9,en;q=0.8,ru-UA;q=0.7,ru;q=0.6,uk-UA;q=0.5,uk;q=0.4"
+											},
+											{
+												"key": "Connection",
+												"value": "keep-alive"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json;charset=UTF-8"
+											},
+											{
+												"key": "Origin",
+												"value": "https://ilcarro.web.app"
+											},
+											{
+												"key": "Referer",
+												"value": "https://ilcarro.web.app/"
+											},
+											{
+												"key": "Sec-Fetch-Dest",
+												"value": "empty"
+											},
+											{
+												"key": "Sec-Fetch-Mode",
+												"value": "cors"
+											},
+											{
+												"key": "Sec-Fetch-Site",
+												"value": "cross-site"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+											},
+											{
+												"key": "sec-ch-ua",
+												"value": "\"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\""
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "sec-ch-ua-platform",
+												"value": "\"Windows\""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"username\":\"user12@gmail.com\",\"password\":\"1234567Qa@\"}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/v1/user/login/usernamepassword",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"v1",
+												"user",
+												"login",
+												"usernamepassword"
+											]
+										},
+										"description": "Generated from cURL: curl 'https://ilcarro-backend.herokuapp.com/v1/user/login/usernamepassword' \\\r\n  -H 'Accept: application/json, text/plain, */*' \\\r\n  -H 'Accept-Language: en-US,en-GB;q=0.9,en;q=0.8,ru-UA;q=0.7,ru;q=0.6,uk-UA;q=0.5,uk;q=0.4' \\\r\n  -H 'Connection: keep-alive' \\\r\n  -H 'Content-Type: application/json;charset=UTF-8' \\\r\n  -H 'Origin: https://ilcarro.web.app' \\\r\n  -H 'Referer: https://ilcarro.web.app/' \\\r\n  -H 'Sec-Fetch-Dest: empty' \\\r\n  -H 'Sec-Fetch-Mode: cors' \\\r\n  -H 'Sec-Fetch-Site: cross-site' \\\r\n  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36' \\\r\n  -H 'sec-ch-ua: \"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\"' \\\r\n  -H 'sec-ch-ua-mobile: ?0' \\\r\n  -H 'sec-ch-ua-platform: \"Windows\"' \\\r\n  --data-raw '{\"username\":\"user12@gmail.com\",\"password\":\"1234567Qa@\"}'"
+									},
+									"response": []
+								}
+							],
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											""
+										]
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"type": "text/javascript",
+										"packages": {},
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										]
+									}
+								}
+							]
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								]
+							}
+						}
+					]
+				},
+				{
+					"name": "Registration",
+					"item": [
+						{
+							"name": "Positive",
+							"item": [
+								{
+									"name": "Positiveregistration200",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"\r",
+													"pm.test(\"Response has the required fields\", function () {\r",
+													"    const responseData = pm.response.json();\r",
+													"    \r",
+													"    pm.expect(responseData).to.be.an('object');\r",
+													"    pm.expect(responseData.accessToken).to.exist;\r",
+													"});\r",
+													"\r",
+													"\r",
+													"pm.test(\"Access token is a non-empty string\", function () {\r",
+													"  const responseData = pm.response.json();\r",
+													"\r",
+													"  pm.expect(responseData.accessToken).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Access token should not be empty\");\r",
+													"});\r",
+													"\r",
+													"\r",
+													"pm.test(\"Content-Type is application/json\", function () {\r",
+													"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"username\": \"{{randomEmail}}\",\r\n  \"password\": \"Qwerty278@\",\r\n  \"firstName\": \"firstName\",\r\n  \"lastName\": \"lastName\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/v1/user/registration/usernamepassword",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"v1",
+												"user",
+												"registration",
+												"usernamepassword"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "Negative",
+							"item": [
+								{
+									"name": "UserExistError400",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status(400);\r",
+													"\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response time is less than 1500ms\", function () {\r",
+													"    pm.expect(pm.response.responseTime).to.be.below(1500);\r",
+													"   \r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json, text/plain, */*"
+											},
+											{
+												"key": "Accept-Language",
+												"value": "en-US,en-GB;q=0.9,en;q=0.8,ru-UA;q=0.7,ru;q=0.6,uk-UA;q=0.5,uk;q=0.4"
+											},
+											{
+												"key": "Connection",
+												"value": "keep-alive"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json;charset=UTF-8"
+											},
+											{
+												"key": "Origin",
+												"value": "https://ilcarro.web.app"
+											},
+											{
+												"key": "Referer",
+												"value": "https://ilcarro.web.app/"
+											},
+											{
+												"key": "Sec-Fetch-Dest",
+												"value": "empty"
+											},
+											{
+												"key": "Sec-Fetch-Mode",
+												"value": "cors"
+											},
+											{
+												"key": "Sec-Fetch-Site",
+												"value": "cross-site"
+											},
+											{
+												"key": "User-Agent",
+												"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+											},
+											{
+												"key": "sec-ch-ua",
+												"value": "\"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\""
+											},
+											{
+												"key": "sec-ch-ua-mobile",
+												"value": "?0"
+											},
+											{
+												"key": "sec-ch-ua-platform",
+												"value": "\"Windows\""
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\"username\":\"useremail2@gmail.com\",\"password\":\"Qwerty12@\",\"firstName\":\"User1\",\"lastName\":\"User2\"}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseURL}}/v1/user/registration/usernamepassword",
+											"host": [
+												"{{baseURL}}"
+											],
+											"path": [
+												"v1",
+												"user",
+												"registration",
+												"usernamepassword"
+											]
+										},
+										"description": "Generated from cURL: curl 'https://ilcarro-backend.herokuapp.com/v1/user/registration/usernamepassword' \\\r\n  -H 'Accept: application/json, text/plain, */*' \\\r\n  -H 'Accept-Language: en-US,en-GB;q=0.9,en;q=0.8,ru-UA;q=0.7,ru;q=0.6,uk-UA;q=0.5,uk;q=0.4' \\\r\n  -H 'Connection: keep-alive' \\\r\n  -H 'Content-Type: application/json;charset=UTF-8' \\\r\n  -H 'Origin: https://ilcarro.web.app' \\\r\n  -H 'Referer: https://ilcarro.web.app/' \\\r\n  -H 'Sec-Fetch-Dest: empty' \\\r\n  -H 'Sec-Fetch-Mode: cors' \\\r\n  -H 'Sec-Fetch-Site: cross-site' \\\r\n  -H 'User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36' \\\r\n  -H 'sec-ch-ua: \"Chromium\";v=\"130\", \"Google Chrome\";v=\"130\", \"Not?A_Brand\";v=\"99\"' \\\r\n  -H 'sec-ch-ua-mobile: ?0' \\\r\n  -H 'sec-ch-ua-platform: \"Windows\"' \\\r\n  --data-raw '{\"username\":\"useremail1@gmail.com\",\"password\":\"Qwerty12@\",\"firstName\":\"User1\",\"lastName\":\"User2\"}'"
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Car",
+			"item": [
+				{
+					"name": "Positive",
+					"item": [
+						{
+							"name": "GetMyCars",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/v1/cars/my",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars",
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Addcar",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code message is OK\", function () {\r",
+											"    pm.response.to.have.status(\"OK\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/json\", function () {\r",
+											"    //pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has 'message'\", function () {\r",
+											"    var responseData = pm.response.json();\r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.message).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches text = Car added successfully\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Car added successfully\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"JSON body message has string Car added successfully \", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Car added successfully\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body is correct\", function () {\r",
+											"    pm.response.to.have.body(\r",
+											"        {\r",
+											"    \"message\": \"Car added successfully\"\r",
+											"        });\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"serialNumber\": \"{{$timestamp}}\",\r\n  \"manufacture\": \"string\",\r\n  \"model\": \"string\",\r\n  \"year\": \"string\",\r\n  \"fuel\": \"string\",\r\n  \"seats\": 0,\r\n  \"carClass\": \"string\",\r\n  \"pricePerDay\": 0,\r\n  \"about\": \"string\",\r\n  \"city\": \"Haifa\",\r\n  \"lat\": 0,\r\n  \"lng\": 0,\r\n  \"image\": \"string\",\r\n  \"owner\": \"string\",\r\n  \"bookedPeriods\": [\r\n    {\r\n      \"email\": \"string\",\r\n      \"startDate\": \"2024-10-29\",\r\n      \"endDate\": \"2024-10-29\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/v1/cars",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete car by id",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//console.log(\"Was deleted: \"+ pm.environment.get(\"serialNumber\"));\r",
+											"\r",
+											"var uniqueSerialNumber = Date.now();\r",
+											"pm.environment.set(\"serialNumber\", uniqueSerialNumber);\r",
+											"console.log(uniqueSerialNumber);\r",
+											"pm.sendRequest({\r",
+											"    url: pm.environment.get(\"baseURL\") + \"/v1/cars\",\r",
+											"    method: \"POST\",\r",
+											"    header: {\r",
+											"        \"Authorization\": pm.environment.get(\"accessToken\"),\r",
+											"        \"Content-Type\": \"application/json\",\r",
+											"    },\r",
+											"    body: {\r",
+											"        mode: \"raw\",\r",
+											"        raw: JSON.stringify({\r",
+											"            \"serialNumber\": uniqueSerialNumber,\r",
+											"            \"manufacture\": \"string\",\r",
+											"            \"model\": \"string\",\r",
+											"            \"year\": \"string\",\r",
+											"            \"fuel\": \"string\",\r",
+											"            \"seats\": 0,\r",
+											"            \"carClass\": \"string\",\r",
+											"            \"pricePerDay\": 0,\r",
+											"            \"about\": \"string\",\r",
+											"            \"city\": \"Haifa\"\r",
+											"        })\r",
+											"    }\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"// pm.sendRequest({\r",
+											"//     url: \"https://ilcarro-backend.herokuapp.com/v1/cars/my\",\r",
+											"//     method: \"GET\",\r",
+											"//     header: {\r",
+											"//         \"Authorization\": pm.environment.get(\"accessToken\")\r",
+											"//     }\r",
+											"// }, function (err, response) {\r",
+											"//     if (err) return console.error(\"Error: \", err);\r",
+											"//     var cars = response.json().cars;\r",
+											"//     var firstCarSerialNumber = cars[0].serialNumber;\r",
+											"//     pm.environment.set(\"serialNumber\", firstCarSerialNumber);\r",
+											"// });\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/v1/cars/{{serialNumber}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars",
+										"{{serialNumber}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Negative",
+					"item": [
+						{
+							"name": "GetCar Unauthorized(401)",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code text Unauthorized\", function () {\r",
+											"    pm.response.to.have.status(\"Unauthorized\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/json\", function () {\r",
+											"    //pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches Unauthorized\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value error\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"Unauthorized\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value status\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value message\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.\");\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value path\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"     pm.expect(jsonData.path).to.eql(\"/v1/cars/my\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response schema includes timestamp, status, error, message, and path\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"\r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.timestamp).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.status).to.exist.and.to.be.a('number');\r",
+											"  pm.expect(responseData.error).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.message).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.path).to.exist.and.to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Timestamp is in a valid date format\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    pm.expect(responseData.timestamp).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}/);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{badTocken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/v1/cars/my",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars",
+										"my"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GetCars400",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/v1/cars/my9876665453453",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars",
+										"my9876665453453"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddCarUnauthorized(401)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code text Unauthorized\", function () {\r",
+											"    pm.response.to.have.status(\"Unauthorized\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/json\", function () {\r",
+											"    //pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches Unauthorized\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value error\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"Unauthorized\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value status\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value message\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.\");\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value path\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"     pm.expect(jsonData.path).to.eql(\"/v1/cars\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response schema includes timestamp, status, error, message, and path\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"\r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.timestamp).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.status).to.exist.and.to.be.a('number');\r",
+											"  pm.expect(responseData.error).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.message).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.path).to.exist.and.to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Timestamp is in a valid date format\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    pm.expect(responseData.timestamp).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}/);\r",
+											"});\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{badTocken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"serialNumber\": \"{{$timestamp}}\",\r\n  \"manufacture\": \"string\",\r\n  \"model\": \"string\",\r\n  \"year\": \"string\",\r\n  \"fuel\": \"string\",\r\n  \"seats\": 0,\r\n  \"carClass\": \"string\",\r\n  \"pricePerDay\": 0,\r\n  \"about\": \"string\",\r\n  \"city\": \"Haifa\",\r\n  \"lat\": 0,\r\n  \"lng\": 0,\r\n  \"image\": \"string\",\r\n  \"owner\": \"string\",\r\n  \"bookedPeriods\": [\r\n    {\r\n      \"email\": \"string\",\r\n      \"startDate\": \"2024-10-29\",\r\n      \"endDate\": \"2024-10-29\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/v1/cars",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Del Car Unauthorized (401)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code text Unauthorized\", function () {\r",
+											"    pm.response.to.have.status(\"Unauthorized\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/json\", function () {\r",
+											"    //pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches Unauthorized\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Unauthorized\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value error\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"Unauthorized\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value status\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value message\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.\");\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value path\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"     pm.expect(jsonData.path).to.eql(\"/v1/cars/1730233298689\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response schema includes timestamp, status, error, message, and path\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"\r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.timestamp).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.status).to.exist.and.to.be.a('number');\r",
+											"  pm.expect(responseData.error).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.message).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.path).to.exist.and.to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Timestamp is in a valid date format\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    pm.expect(responseData.timestamp).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}/);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{badTocken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/v1/cars/{{serialNumber}}",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars",
+										"{{serialNumber}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Del Car NotExCar400",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code text Bad Request\", function () {\r",
+											"    pm.response.to.have.status(\"Bad Request\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/json\", function () {\r",
+											"    //pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches Bad Request\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Bad Request\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value error\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"Bad Request\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value status\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value message\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Car with serial number 01234567889QA not found\");\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value path\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"     pm.expect(jsonData.path).to.eql(\"/v1/cars/01234567889QA\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response schema includes timestamp, status, error, message, and path\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"\r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.timestamp).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.status).to.exist.and.to.be.a('number');\r",
+											"  pm.expect(responseData.error).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.message).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.path).to.exist.and.to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Timestamp is in a valid date format\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    pm.expect(responseData.timestamp).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}/);\r",
+											"});\r",
+											"\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"//pm.environment.set(\"serialNumber\", \"01234567889QA\");"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseURL}}/v1/cars/01234567889QA",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars",
+										"01234567889QA"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddCarWrongCity(400)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code text Bad Request\", function () {\r",
+											"    pm.response.to.have.status(\"Bad Request\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/json\", function () {\r",
+											"    //pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches Bad Request\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Bad Request\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value error\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"Bad Request\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value status\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value message\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"City Hoifa is not supported\");\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value path\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"     pm.expect(jsonData.path).to.eql(\"/v1/cars\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response schema includes timestamp, status, error, message, and path\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"\r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.timestamp).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.status).to.exist.and.to.be.a('number');\r",
+											"  pm.expect(responseData.error).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.message).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.path).to.exist.and.to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Timestamp is in a valid date format\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    pm.expect(responseData.timestamp).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}/);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"serialNumber\": \"{{$timestamp}}\",\r\n  \"manufacture\": \"string\",\r\n  \"model\": \"string\",\r\n  \"year\": \"string\",\r\n  \"fuel\": \"string\",\r\n  \"seats\": 0,\r\n  \"carClass\": \"string\",\r\n  \"pricePerDay\": 0,\r\n  \"about\": \"string\",\r\n  \"city\": \"Hoifa\",\r\n  \"lat\": 0,\r\n  \"lng\": 0,\r\n  \"image\": \"string\",\r\n  \"owner\": \"string\",\r\n  \"bookedPeriods\": [\r\n    {\r\n      \"email\": \"string\",\r\n      \"startDate\": \"2024-10-29\",\r\n      \"endDate\": \"2024-10-29\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/v1/cars",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "AddCarExistCar(400)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Status code text Bad Request\", function () {\r",
+											"    pm.response.to.have.status(\"Bad Request\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is application/json\", function () {\r",
+											"    //pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\")\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Body matches Bad Request\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Bad Request\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value error\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.error).to.eql(\"Bad Request\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value status\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.status).to.eql(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value message\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData.message).to.eql(\"Car with serial number 1730214298 already exists\");\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Json value path\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"     pm.expect(jsonData.path).to.eql(\"/v1/cars\"); \r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response schema includes timestamp, status, error, message, and path\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"\r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.timestamp).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.status).to.exist.and.to.be.a('number');\r",
+											"  pm.expect(responseData.error).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.message).to.exist.and.to.be.a('string');\r",
+											"  pm.expect(responseData.path).to.exist.and.to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Timestamp is in a valid date format\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    pm.expect(responseData.timestamp).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}/);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{accessToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"serialNumber\": \"1730214298\",\r\n  \"manufacture\": \"string\",\r\n  \"model\": \"string\",\r\n  \"year\": \"string\",\r\n  \"fuel\": \"string\",\r\n  \"seats\": 0,\r\n  \"carClass\": \"string\",\r\n  \"pricePerDay\": 0,\r\n  \"about\": \"string\",\r\n  \"city\": \"Haifa\",\r\n  \"lat\": 0,\r\n  \"lng\": 0,\r\n  \"image\": \"string\",\r\n  \"owner\": \"string\",\r\n  \"bookedPeriods\": [\r\n    {\r\n      \"email\": \"string\",\r\n      \"startDate\": \"2024-10-29\",\r\n      \"endDate\": \"2024-10-29\"\r\n    }\r\n  ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseURL}}/v1/cars",
+									"host": [
+										"{{baseURL}}"
+									],
+									"path": [
+										"v1",
+										"cars"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"packages": {},
+								"exec": [
+									"pm.test(\"Status code is 401, 400, 403, 404, 500\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([400, 401, 403, 404, 500]);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 2000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								]
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}
